@@ -1,0 +1,53 @@
+﻿<krpano>
+    <!--  自适应配置  -->
+    <krpano stagescale="calc:stagescale * 2" if="stagescale LT 1.0" devices="mobile"/>
+    <!--  grid preview pano  -->
+    <!--
+    <preview url="%$preview%"/>
+    -->
+    <!--  view/fov settings  -->
+    <view hlookat="0" vlookat="0" fovtype="VFOV" fov="100" fovmin="30" fovmax="150"/>
+    <image>
+        <sphere url="%$source%"/>
+    </image>
+    <!--  自动旋转  -->
+    <autorotate enabled="false" waittime="0" speed="5.0" horizon="0.0"/>
+    <!--  全局事件监听事件  -->
+    <events onxmlcomplete="skin_showloading(true);" onpreviewcomplete="skin_showloading(true);" onloadcomplete="planetview();delayedcall(1, tween_normalview); skin_showloading(false); set(autorotate.enabled, true);"/>
+    <!--  切换至小行星视角  -->
+    <action name="planetview">
+        copy(lp_hlookat, view.hlookat); lookat(calc(lp_hlookat - 180), 90, 150, 1, 0, 0);
+    </action>
+    <!--  动画：从小行星视角到正常视角  -->
+    <action name="tween_normalview">
+        copy(lp_hlookat, view.hlookat); tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc(calc(lp_hlookat + 180) + '|' + '0' + '|' + '100' + '|' + 0.0), 3.0, easeOutQuad);
+    </action>
+    <!--  动画：从正常视角到小行星视角  -->
+    <action name="tween_planetview">
+        copy(lp_hlookat, view.hlookat); tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc(calc(lp_hlookat - 180) + '|' + '90' + '|' + '150' + '|' + 1), 3.0, easeOutQuad);
+    </action>
+    <!--  显示/隐藏loading， %1是第一个参数的意思  -->
+    <action name="skin_showloading">
+        set(layer[skin_loading].visible, %1);
+    </action>
+    <!--  loading动画  -->
+    <layer name="skin_loading" type="image" visible="false" width="30" height="30" align="center" devices="html5" url="../panorama/loading.svg"/>
+    <!--  陀螺仪  -->
+    <plugin name="gyroscope" url="js/gyro.js" keep="true" devices="tablet|mobile" enabled="true"/>
+    <layer name="btn_group" keep="true" type="container" align="right" width="30" height="88" x="10" alpha="1" zorder="50000">
+        <layer name="skin_btn_gyro_box" keep="true" type="container" align="righttop" width="30" height="30">
+            <layer name="skin_btn_gyro" type="image" visible="true" width="30" height="30" onclick="auto_rotate();" devices="html5" url="../panorama/gyro.png"/>
+            <layer name="skin_btn_gyro_disabled" visible="false" align="center" type="image" onclick="auto_rotate();" x="0" y="0" width="30" height="30" url="../panorama/disabled-gyro.png"/>
+        </layer>
+        <layer name="skin_btn_planet_box" keep="true" type="container" align="righttop" width="30" height="30" y="44">
+            <layer name="skin_btn_planet" type="image" visible="false" width="30" height="30" onclick="title_planet();" devices="html5" url="../panorama/planet.png"/>
+            <layer name="skin_btn_planet_disabled" visible="true" align="center" type="image" x="0" y="0" onclick="title_planet();" width="30" height="30" url="../panorama/disabled-planet.png"/>
+        </layer>
+    </layer>
+    <action name="auto_rotate">
+        switch(plugin[gyroscope].enabled); switch(layer[skin_btn_gyro].visible); switch(layer[skin_btn_gyro_disabled].visible); copy(planet_disabled, layer[skin_btn_gyro_disabled].visible); copy(gyroscope_enabled, plugin[gyroscope].enabled); if (gyroscope_enabled, set(autorotate.enabled, false); , if (planet_disabled, set(autorotate.enabled, false); , set(autorotate.enabled, true); ); );
+    </action>
+    <action name="title_planet">
+        copy(planet_disabled, layer[skin_btn_planet_disabled].visible); if (planet_disabled, tween_planetview(); set(autorotate.enabled, false); set(layer[skin_btn_gyro_disabled].visible, true); set(layer[skin_btn_gyro].visible, false); , tween_normalview(); set(autorotate.enabled, true); set(layer[skin_btn_gyro_disabled].visible, false); set(layer[skin_btn_gyro].visible, true); ); switch(layer[skin_btn_planet].visible); switch(layer[skin_btn_planet_disabled].visible);
+    </action>
+</krpano>

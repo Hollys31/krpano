@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全景图</title>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #panorama {
+            width: 100%;
+            height: 100%;
+        }
+
+        /***隐藏krpanoLOGO***/
+        #krpano center i {
+            display: none !important;
+        }
+
+        #back-button {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 2.2%;
+            left: 2.5%;
+            z-index: 999;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        #back-button:before {
+            content: "";
+            display: block;
+            width: 22px;
+            height: 22px;
+            background: url('panorama/back-button.png');
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="panorama"></div>
+    <div id="back-button"></div>
+</body>
+<script type="text/javascript" src="js/krpano.js"></script>
+<script type="text/javascript" src="main.js"></script>
+
+</html>
