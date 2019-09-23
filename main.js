@@ -1,5 +1,5 @@
 const defaultUrl = '../1.jpg' // 全景图地址
-    
+
 // 从链接上获取图片的url
 let querys = location.search
 const paramsObj = {}
@@ -37,12 +37,12 @@ window.onload = function () {
     //removepano('krpano')
 }
 document.addEventListener('DOMContentLoaded', function () {
-        const ua = navigator.userAgent.toLowerCase()
-        if (/miniProgram/i.test(ua)) { // 微信小程序中
-            document.getElementById('back-button').onclick = function () {
-             wx.miniProgram.reLaunch({ url: '/pages/album/album'})
-            }
+    const ua = navigator.userAgent.toLowerCase()
+    if (/miniProgram/i.test(ua)) { // 微信小程序中
+        document.getElementById('back-button').onclick = function () {
+            wx.miniProgram.reLaunch({
+                url: '/pages/video/video'
+            })
         }
-       
-    
+    }
 })

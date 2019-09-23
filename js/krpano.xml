@@ -33,7 +33,7 @@
     <!--  loading动画  -->
     <layer name="skin_loading" type="image" visible="false" width="30" height="30" align="center" devices="html5" url="../panorama/loading.svg"/>
     <!--  陀螺仪  -->
-    <plugin name="gyroscope" url="js/gyro.js" keep="true" devices="tablet|mobile" enabled="true"/>
+    <plugin name="gyroscope" url="gyro.js" keep="true" devices="tablet|mobile" enabled="true"/>
     <layer name="btn_group" keep="true" type="container" align="right" width="30" height="88" x="10" alpha="1" zorder="50000">
         <layer name="skin_btn_gyro_box" keep="true" type="container" align="righttop" width="30" height="30">
             <layer name="skin_btn_gyro" type="image" visible="true" width="30" height="30" onclick="auto_rotate();" devices="html5" url="../panorama/gyro.png"/>
